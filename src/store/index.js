@@ -1,42 +1,13 @@
-import { createStore } from 'redux';
-
-const initialState = {
-  counter: 0,
-  showCounter: true,
-};
-
-const counterReducer = (state = initialState, action) => {
-  if (action.type === 'increment') {
-    return {
-      counter: state.counter + 1,
-      showCounter: state.showCounter,
-    };
-  }
-
-  if (action.type === 'decrement') {
-    return {
-      counter: state.counter - 1,
-      showCounter: state.showCounter,
-    };
-  }
-
-  if (action.type === 'increaseByFive') {
-    return {
-      counter: state.counter + action.payload,
-      showCounter: state.showCounter,
-    };
-  }
-
-  if (action.type === 'toggleCounter') {
-    return {
-      counter: state.counter,
-      showCounter: !state.showCounter,
-    };
-  }
-
-  return state;
-};
-
-const store = createStore(counterReducer);
+// configureStore like createStore() creates a store and makes merging multiple reducers into 1 reducer easier
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from './counter-slice';
+import authReducer from './auth-slice';
+// We can set a single reducer or a map of reducers
+// Behind the scenes configure store will merge all the reducers into one big reducer
+// Now, very important, when you work with multiple slices, you still only have one Redux store,
+// so you still only call configureStore once. This does not change. And this store only has one root reducer here
+const store = configureStore({
+  reducer: { counter: counterReducer, auth: authReducer },
+});
 
 export default store;

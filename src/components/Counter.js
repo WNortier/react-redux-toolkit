@@ -1,26 +1,28 @@
 import classes from './Counter.module.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { counterActions } from '../store/counter-slice';
 
 const Counter = () => {
   // useSelector to select different snapshots of state
-  const counter = useSelector((state) => state.counter);
-  const show = useSelector((state) => state.showCounter);
+  const counter = useSelector((state) => state.counter.counter);
+  const show = useSelector((state) => state.counter.showCounter);
   const dispatch = useDispatch();
 
+  // increment is a method which when executed creates a full action object with the type set to this automatically created unique action identifier.
   const incrementHandler = () => {
-    dispatch({ type: 'increment' });
+    dispatch(counterActions.increment());
   };
 
   const decrementHandler = () => {
-    dispatch({ type: 'decrement' });
+    dispatch(counterActions.decrement());
   };
 
   const increaseHandler = () => {
-    dispatch({ type: 'increaseByFive', payload: 5 });
+    dispatch(counterActions.increase(5)); // {type: SOME_UNIQUE_IDENTIFIER, payload: 5}
   };
 
   const toggleCounterHandler = () => {
-    dispatch({ type: 'toggleCounter' });
+    dispatch(counterActions.toggleCounter());
   };
 
   return (
